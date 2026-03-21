@@ -1,3 +1,4 @@
+import json
 import logging
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -20,24 +21,36 @@ class DataCollector:
         
         self.raw_path = Path(self.config["raw_path"])
         self.processed_path = Path(self.config["processed_path"])
+        self.meta_path = Path(self.config["meta_path"])
         self.seed = self.config.get("seed", 42)
         self.rps = self.config.get("rps", 1)
         
         self.raw_path.mkdir(parents=True, exist_ok=True)
         self.processed_path.mkdir(parents=True, exist_ok=True)
+        self.meta_path.mkdir(parents=True, exist_ok=True)
 
-    def download(self) -> Path:
-        LOGGER.info(f"Downloading: {self.config['dataset']}")
-        try:
-            path = Path(kagglehub.dataset_download(self.config["dataset"]))
+    def get_data_from_source(self, source: dict) -> pd.DataFrame:
+        source_type = source["type"]
+        
+        if source_type == "kaggle":
+            dataset = source["dataset"]
+            LOGGER.info(f"Downloading from Kaggle: {dataset}")
+            path = Path(kagglehub.dataset_download(dataset))
             LOGGER.info(f"Downloaded to: {path}")
-            return path
-        except Exception as e:
-            LOGGER.error(f"Download failed: {e}")
-            raise
+            return self.load_raw_data(path)
+        
+        elif source_type == "local":
+            path = Path(source["path"])
+            if not path.exists():
+                raise FileNotFoundError(f"Local path not found: {path}")
+            LOGGER.info(f"Loading from local: {path}")
+            return self.load_raw_data(path)
+        
+        else:
+            raise ValueError(f"Unknown source type: {source_type}")
 
     def load_raw_data(self, data_path: Path) -> pd.DataFrame:
-        LOGGER.info("Loading raw data")
+        LOGGER.info(f"Loading raw data from {data_path}")
         try:
             df_fake = pd.read_csv(data_path / "Fake.csv")
             df_fake["label"] = 1
@@ -49,6 +62,20 @@ class DataCollector:
         except Exception as e:
             LOGGER.error(f"Load failed: {e}")
             raise
+
+    def load_all_sources(self) -> pd.DataFrame:
+        sources = self.config.get("sources", [])
+        if not sources:
+            raise ValueError("No sources configured")
+        
+        dfs = []
+        for source in sources:
+            df = self.get_data_from_source(source)
+            dfs.append(df)
+        
+        combined = pd.concat(dfs, ignore_index=True)
+        LOGGER.info(f"Combined {len(sources)} sources: {len(combined)} rows total")
+        return combined
 
     def parse_date(self, d):
         try:
@@ -86,6 +113,28 @@ class DataCollector:
             batch_file = self.raw_path / f"batch_{batch_id}.csv"
             batch_df_save.to_csv(batch_file, index=False)
             LOGGER.info(f"Batch {batch_id}: {len(batch_df)} rows")
+
+    def calculate_meta(self, name: str, df: pd.DataFrame) -> dict:
+        text_lengths = df["text"].str.len()
+        return {
+            "name": name,
+            "n_rows": len(df),
+            "n_fake": int((df["label"] == 1).sum()),
+            "n_real": int((df["label"] == 0).sum()),
+            "fake_ratio": round((df["label"] == 1).mean(), 4),
+            "text_len_mean": round(text_lengths.mean(), 2),
+            "text_len_std": round(text_lengths.std(), 2),
+            "text_len_min": int(text_lengths.min()),
+            "text_len_max": int(text_lengths.max()),
+            "created_at": datetime.now().isoformat(),
+        }
+
+    def save_meta(self, name: str, df: pd.DataFrame):
+        meta = self.calculate_meta(name, df)
+        meta_file = self.meta_path / f"{name}_meta.json"
+        with open(meta_file, "w") as f:
+            json.dump(meta, f, indent=2)
+        LOGGER.info(f"Meta saved: {meta_file}")
 
     def add_arrival_time(self, df: pd.DataFrame) -> pd.DataFrame:
         df = df.copy().reset_index(drop=True)
@@ -135,16 +184,21 @@ class DataCollector:
             
             test_df = self.add_arrival_time(test_df)
             
-            train_df.to_csv(self.processed_path / f"train{name}.csv", index=False)
-            test_df.to_csv(self.processed_path / f"test{name}.csv", index=False)
+            train_name = f"train{name}"
+            test_name = f"test{name}"
             
-            LOGGER.info(f"Split {name}: train{name}={len(train_df)}, test{name}={len(test_df)}")
+            train_df.to_csv(self.processed_path / f"{train_name}.csv", index=False)
+            test_df.to_csv(self.processed_path / f"{test_name}.csv", index=False)
+            
+            self.save_meta(train_name, train_df)
+            self.save_meta(test_name, test_df)
+            
+            LOGGER.info(f"Split {name}: {train_name}={len(train_df)}, {test_name}={len(test_df)}")
 
     def collect(self):
         LOGGER.info("Starting data collection")
         LOGGER.info(f"Config: seed={self.seed}, rps={self.rps}")
-        data_path = self.download()
-        df = self.load_raw_data(data_path)
+        df = self.load_all_sources()
         df = self.preprocess(df)
         batches = self.split_into_batches(df)
         self.save_batches(batches)

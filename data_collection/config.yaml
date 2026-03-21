@@ -1,9 +1,14 @@
 data_collection:
-  source: kaggle
-  dataset: clmentbisaillon/fake-and-real-news-dataset
+  sources:
+    - type: kaggle
+      dataset: clmentbisaillon/fake-and-real-news-dataset
+    # - type: local
+    #   path: /path/to/local/data
+  
   batch_freq: M
   raw_path: data/raw
   processed_path: data/processed
+  meta_path: data/meta
   seed: 42
   rps: 1
   
