@@ -8,12 +8,12 @@ import yaml
 import kagglehub
 from dateutil import parser as date_parser
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s | %(message)s")
+logging.basicConfig(level=logging.INFO, format="%(message)s")
 LOGGER = logging.getLogger("data_collection")
 
 
 class DataCollector:
-    def __init__(self, config_path: str = None):
+    def __init__(self, config_path=None):
         if config_path is None:
             config_path = Path(__file__).parent / "config.yaml"
         with open(config_path) as f:
@@ -29,7 +29,7 @@ class DataCollector:
         self.processed_path.mkdir(parents=True, exist_ok=True)
         self.meta_path.mkdir(parents=True, exist_ok=True)
 
-    def get_data_from_source(self, source: dict) -> pd.DataFrame:
+    def get_data_from_source(self, source):
         source_type = source["type"]
         
         if source_type == "kaggle":
@@ -49,7 +49,7 @@ class DataCollector:
         else:
             raise ValueError(f"Unknown source type: {source_type}")
 
-    def load_raw_data(self, data_path: Path) -> pd.DataFrame:
+    def load_raw_data(self, data_path):
         LOGGER.info(f"Loading raw data from {data_path}")
         try:
             df_fake = pd.read_csv(data_path / "Fake.csv")
@@ -63,7 +63,7 @@ class DataCollector:
             LOGGER.error(f"Load failed: {e}")
             raise
 
-    def load_all_sources(self) -> pd.DataFrame:
+    def load_all_sources(self):
         sources = self.config.get("sources", [])
         if not sources:
             raise ValueError("No sources configured")
@@ -83,7 +83,7 @@ class DataCollector:
         except:
             return None
 
-    def preprocess(self, df: pd.DataFrame) -> pd.DataFrame:
+    def preprocess(self, df):
         LOGGER.info("Preprocessing")
         df = df.copy()
         df["date"] = df["date"].apply(self.parse_date)
@@ -95,7 +95,7 @@ class DataCollector:
         LOGGER.info(f"After preprocessing: {len(df)} rows")
         return df
 
-    def split_into_batches(self, df: pd.DataFrame) -> dict:
+    def split_into_batches(self, df):
         LOGGER.info(f"Splitting into batches by {self.config['batch_freq']}")
         df = df.copy()
         df["batch"] = df["date"].dt.to_period(self.config["batch_freq"])
@@ -105,7 +105,7 @@ class DataCollector:
         LOGGER.info(f"Created {len(batches)} batches")
         return batches
 
-    def save_batches(self, batches: dict):
+    def save_batches(self, batches):
         LOGGER.info("Saving batches")
         for batch_id, batch_df in batches.items():
             batch_df_save = batch_df.copy()
@@ -114,7 +114,7 @@ class DataCollector:
             batch_df_save.to_csv(batch_file, index=False)
             LOGGER.info(f"Batch {batch_id}: {len(batch_df)} rows")
 
-    def calculate_meta(self, name: str, df: pd.DataFrame) -> dict:
+    def calculate_meta(self, name, df):
         text_lengths = df["text"].str.len()
         return {
             "name": name,
@@ -129,14 +129,14 @@ class DataCollector:
             "created_at": datetime.now().isoformat(),
         }
 
-    def save_meta(self, name: str, df: pd.DataFrame):
+    def save_meta(self, name, df):
         meta = self.calculate_meta(name, df)
         meta_file = self.meta_path / f"{name}_meta.json"
         with open(meta_file, "w") as f:
             json.dump(meta, f, indent=2)
         LOGGER.info(f"Meta saved: {meta_file}")
 
-    def add_arrival_time(self, df: pd.DataFrame) -> pd.DataFrame:
+    def add_arrival_time(self, df):
         df = df.copy().reset_index(drop=True)
         start_time = datetime.now()
         interval = timedelta(seconds=1.0 / self.rps)
@@ -145,7 +145,7 @@ class DataCollector:
         ]
         return df
 
-    def save_splits(self, df: pd.DataFrame):
+    def save_splits(self, df):
         LOGGER.info("Creating train/test splits")
         from sklearn.model_selection import train_test_split
         
