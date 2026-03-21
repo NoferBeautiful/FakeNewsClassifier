@@ -1,0 +1,16 @@
+data_collection:
+  source: kaggle
+  dataset: clmentbisaillon/fake-and-real-news-dataset
+  batch_freq: M
+  raw_path: data/raw
+  processed_path: data/processed
+  seed: 42
+  rps: 1
+  
+  splits:
+    - name: "1"
+      end_date: "2017-10-01"
+      test_size: 0.2
+    - name: "2"
+      end_date: null
+      test_size: 0.2
