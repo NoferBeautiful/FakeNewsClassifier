@@ -22,6 +22,7 @@ class AttentionInterpreter:
 
     def explain(self, text):
         inputs = self.tokenizer(text, truncation=True, max_length=self.config["model"]["max_length"], return_tensors="pt")
+        inputs.pop("token_type_ids", None)
         inputs = {k: v.to(self.device) for k, v in inputs.items()}
         
         with torch.no_grad():
