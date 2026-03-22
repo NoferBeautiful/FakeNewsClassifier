@@ -1,0 +1,11 @@
+streamlit
+torch
+transformers
+safetensors
+newspaper3k
+langdetect
+lxml_html_clean
+sentencepiece
+pyyaml
+scikit-learn
+pandas
