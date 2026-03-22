@@ -89,3 +89,8 @@ python run.py stream --model baseline_frozen_encoder --file data/processed/test_
 - `--limit` — количество запросов
 - `--report-interval` — периодичность отчета в секундах
 - `--batch-timeout` — таймаут принудительной обработки батча, если он не заполнился
+
+## HF Space
+
+Демо: https://huggingface.co/spaces/Nofer/FakeNewsClassifier_mlops
+
