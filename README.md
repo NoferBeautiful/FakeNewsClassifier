@@ -8,6 +8,7 @@ MLOps-система для классификации фейковых ново
 |--------|----------|
 | `baseline_frozen_encoder` | distilbert с замороженным энкодером, обучен на данных до середины 2017 |
 | `baseline_frozen_encoder_tuned2018` | `baseline_frozen_encoder`, дообученный на 2018-2018 года |
+| `baseline_frozen_encoder_trump` | `baseline_frozen_encoder`, дообученный на trump-данных |
 | `baseline_unfrozen_encoder` | distilbert с размороженным энкодером, переобученный под данную задачу |
 
 ## Запуск
@@ -78,6 +79,9 @@ python run.py stream --model baseline_frozen_encoder --file data/processed/test2
 
 # Обычный сценарий
 python run.py stream --model baseline_frozen_encoder --file data/processed/test1.csv --rps 20 --batch-size 16 --report-interval 0.5 --limit 200
+
+# С drift (переключение на trump-модель при >30% новостей с trump в батче)
+python run.py stream --model baseline_frozen_encoder --file data/processed/test_trump.csv --trump-threshold 0.3 --batch-size 16 --limit 100
 ```
 
 - `--rps` — запросы в секунду
