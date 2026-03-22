@@ -6,6 +6,7 @@ newspaper3k
 langdetect
 lxml_html_clean
 sentencepiece
+sacremoses
 pyyaml
 scikit-learn
 pandas
