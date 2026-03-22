@@ -1,0 +1,116 @@
+{
+  "shape": {
+    "n_rows": 30907,
+    "n_cols": 6
+  },
+  "columns": [
+    "title",
+    "text",
+    "subject",
+    "date",
+    "label",
+    "source"
+  ],
+  "dtypes": {
+    "title": "str",
+    "text": "str",
+    "subject": "str",
+    "date": "str",
+    "label": "int64",
+    "source": "str"
+  },
+  "missing": {
+    "title": {
+      "count": 0,
+      "percent": 0.0
+    },
+    "text": {
+      "count": 1,
+      "percent": 0.0032
+    },
+    "subject": {
+      "count": 0,
+      "percent": 0.0
+    },
+    "date": {
+      "count": 0,
+      "percent": 0.0
+    },
+    "label": {
+      "count": 0,
+      "percent": 0.0
+    },
+    "source": {
+      "count": 0,
+      "percent": 0.0
+    }
+  },
+  "total_missing_cells": 1,
+  "total_missing_percent": 0.0005,
+  "duplicates": {
+    "full_row_duplicates": 0,
+    "text_duplicates": 0
+  },
+  "label_distribution": {
+    "0": 16952,
+    "1": 13955
+  },
+  "label_balance": 0.4515,
+  "text_length_chars": {
+    "mean": 2455.95,
+    "std": 1918.33,
+    "min": 0,
+    "max": 51793,
+    "median": 2230.0,
+    "q25": 1324.5,
+    "q75": 3093.0
+  },
+  "text_length_words": {
+    "mean": 403.32,
+    "std": 311.26,
+    "min": 0,
+    "max": 8135,
+    "median": 369.0,
+    "q25": 217.0,
+    "q75": 511.0
+  },
+  "empty_texts": 1,
+  "short_texts_under_50_chars": 112,
+  "title_length_chars": {
+    "mean": 76.38,
+    "std": 22.04,
+    "min": 15,
+    "max": 279,
+    "median": 71.0,
+    "q25": 62.0,
+    "q75": 86.0
+  },
+  "empty_titles": 0,
+  "subject_distribution": {
+    "politicsNews": 8986,
+    "worldnews": 7966,
+    "News": 7230,
+    "politics": 5138,
+    "US_News": 629,
+    "left-news": 545,
+    "Government News": 413
+  },
+  "source_distribution": {
+    "train1": 23092,
+    "train2": 7815
+  },
+  "date_range": {
+    "min": "2015-03-31",
+    "max": "2018-02-19",
+    "n_invalid_dates": 0
+  },
+  "unique_counts": {
+    "title": 30658,
+    "text": 30906,
+    "subject": 7,
+    "date": 1009,
+    "label": 2,
+    "source": 2
+  },
+  "created_at": "2026-03-22T03:19:18.012738"
+}

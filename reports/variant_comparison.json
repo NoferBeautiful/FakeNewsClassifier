@@ -1,0 +1,52 @@
+{
+  "cv_folds": 5,
+  "model": "LogisticRegression",
+  "results": [
+    {
+      "variant": "baseline",
+      "n_features": 39,
+      "accuracy_mean": 0.9999,
+      "accuracy_std": 0.0001,
+      "f1_mean": 0.9999,
+      "f1_std": 0.0001,
+      "precision_mean": 1.0,
+      "recall_mean": 0.9999
+    },
+    {
+      "variant": "robust",
+      "n_features": 40,
+      "accuracy_mean": 0.9999,
+      "accuracy_std": 0.0001,
+      "f1_mean": 0.9999,
+      "f1_std": 0.0001,
+      "precision_mean": 1.0,
+      "recall_mean": 0.9999
+    },
+    {
+      "variant": "minmax_freq",
+      "n_features": 34,
+      "accuracy_mean": 0.9838,
+      "accuracy_std": 0.0053,
+      "f1_mean": 0.9817,
+      "f1_std": 0.0062,
+      "precision_mean": 0.9923,
+      "recall_mean": 0.9715
+    },
+    {
+      "variant": "no_scaling_label",
+      "error": "\nAll the 5 fits failed.\nIt is very likely that your model is misconfigured.\nYou can try to debug the error by setting error_score='raise'.\n\nBelow are more details about the failures:\n--------------------------------------------------------------------------------\n5 fits failed with the following error:\nTraceback (most recent call last):\n  File \"/home/aloeme/anaconda3/envs/fnc/lib/python3.13/site-packages/sklearn/model_selection/_validation.py\", line 833, in _fit_and_score\n    estimator.fit(X_train, y_train, **fit_params)\n    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/aloeme/anaconda3/envs/fnc/lib/python3.13/site-packages/sklearn/base.py\", line 1336, in wrapper\n    return fit_method(estimator, *args, **kwargs)\n  File \"/home/aloeme/anaconda3/envs/fnc/lib/python3.13/site-packages/sklearn/linear_model/_logistic.py\", line 1262, in fit\n    coefs, _, n_iter = _logistic_regression_path(\n                       ~~~~~~~~~~~~~~~~~~~~~~~~~^\n        X,\n        ^^\n    ...<16 lines>...\n        n_threads=n_threads,\n        ^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/home/aloeme/anaconda3/envs/fnc/lib/python3.13/site-packages/sklearn/linear_model/_logistic.py\", line 392, in _logistic_regression_path\n    opt_res = optimize.minimize(\n        func,\n    ...<10 lines>...\n        },\n    )\n  File \"/home/aloeme/anaconda3/envs/fnc/lib/python3.13/site-packages/scipy/optimize/_minimize.py\", line 784, in minimize\n    res = _minimize_lbfgsb(fun, x0, args, jac, bounds,\n                           callback=callback, **options)\n  File \"/home/aloeme/anaconda3/envs/fnc/lib/python3.13/site-packages/scipy/optimize/_lbfgsb_py.py\", line 469, in _minimize_lbfgsb\n    f, g = func_and_grad(x)\n           ~~~~~~~~~~~~~^^^\n  File \"/home/aloeme/anaconda3/envs/fnc/lib/python3.13/site-packages/scipy/optimize/_differentiable_functions.py\", line 403, in fun_and_grad\n    self._update_fun()\n    ~~~~~~~~~~~~~~~~^^\n  File \"/home/aloeme/anaconda3/envs/fnc/lib/python3.13/site-packages/scipy/optimize/_differentiable_functions.py\", line 353, in _update_fun\n    fx = self._wrapped_fun(self.x)\n  File \"/home/aloeme/anaconda3/envs/fnc/lib/python3.13/site-packages/scipy/_lib/_util.py\", line 590, in __call__\n    fx = self.f(np.copy(x), *self.args)\n  File \"/home/aloeme/anaconda3/envs/fnc/lib/python3.13/site-packages/scipy/optimize/_optimize.py\", line 80, in __call__\n    self._compute_if_needed(x, *args)\n    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^\n  File \"/home/aloeme/anaconda3/envs/fnc/lib/python3.13/site-packages/scipy/optimize/_optimize.py\", line 74, in _compute_if_needed\n    fg = self.fun(x, *args)\n  File \"/home/aloeme/anaconda3/envs/fnc/lib/python3.13/site-packages/sklearn/linear_model/_linear_loss.py\", line 329, in loss_gradient\n    grad_pointwise /= sw_sum\nFloatingPointError: underflow encountered in divide\n"
+    },
+    {
+      "variant": "zero_impute_robust",
+      "n_features": 40,
+      "accuracy_mean": 1.0,
+      "accuracy_std": 0.0001,
+      "f1_mean": 1.0,
+      "f1_std": 0.0001,
+      "precision_mean": 1.0,
+      "recall_mean": 0.9999
+    }
+  ],
+  "best_by_f1": "zero_impute_robust",
+  "created_at": "2026-03-22T02:50:13.254653"
+}
