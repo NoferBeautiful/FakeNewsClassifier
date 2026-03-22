@@ -94,12 +94,7 @@ python run.py stream --model baseline_frozen_encoder --file data/processed/test_
 
 Демо: https://huggingface.co/spaces/Nofer/FakeNewsClassifier_mlops
 
-| Критерий | Баллы | Статус | Реализация |
-|----------|-------|--------|------------|
-| Конфигурационный файл | 1 | Сделано | [`config.yaml`](data_collection/config.yaml) — YAML-файл с параметрами: источники данных, частота батчей, пути, seed, rps, настройки splits |
-| Интеграция с несколькими источниками | 2 | Сделано | [`collector.py:get_data_from_source()`](data_collection/collector.py) — поддержка `type: kaggle` (скачивание через kagglehub) и `type: local` (чтение из локальной папки). Источники объединяются в `load_all_sources()` |
-| Логирование и обработка ошибок | 1-2 | Сделано | Используется модуль `logging`. Все ключевые операции логируются. Обработка ошибок через try/except в `get_data_from_source()` и `load_raw_data()` |
-
+## Обработка данных:
 ## Этап 2 — Анализ данных (3–13 баллов)
 
 ### Обязательная часть
