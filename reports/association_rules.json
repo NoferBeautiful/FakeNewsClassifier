@@ -1,0 +1,537 @@
+{
+  "total_frequent_itemsets": 226,
+  "total_rules": 566,
+  "params": {
+    "min_support": 0.05,
+    "min_confidence": 0.5,
+    "min_lift": 1.2
+  },
+  "selected_rules": [
+    {
+      "antecedents": [
+        "is_fake",
+        "is_short_text"
+      ],
+      "consequents": [
+        "source_train1",
+        "subject_politics"
+      ],
+      "support": 0.058,
+      "confidence": 0.7331,
+      "lift": 4.9702,
+      "conviction": 3.1946
+    },
+    {
+      "antecedents": [
+        "subject_news"
+      ],
+      "consequents": [
+        "is_fake"
+      ],
+      "support": 0.2339,
+      "confidence": 1.0,
+      "lift": 2.2148,
+      "conviction": "inf"
+    },
+    {
+      "antecedents": [
+        "has_aggression",
+        "is_long_text",
+        "is_real",
+        "subject_politicsnews"
+      ],
+      "consequents": [
+        "has_trump"
+      ],
+      "support": 0.0671,
+      "confidence": 0.8452,
+      "lift": 1.9825,
+      "conviction": 3.7061
+    },
+    {
+      "antecedents": [
+        "is_long_text",
+        "subject_politicsnews"
+      ],
+      "consequents": [
+        "is_real"
+      ],
+      "support": 0.0875,
+      "confidence": 1.0,
+      "lift": 1.8232,
+      "conviction": "inf"
+    },
+    {
+      "antecedents": [
+        "is_long_text",
+        "is_real",
+        "subject_worldnews"
+      ],
+      "consequents": [
+        "has_aggression"
+      ],
+      "support": 0.0562,
+      "confidence": 0.9554,
+      "lift": 1.3038,
+      "conviction": 5.9962
+    }
+  ],
+  "all_rules_top30": [
+    {
+      "antecedents": [
+        "is_long_text",
+        "subject_politicsnews"
+      ],
+      "consequents": [
+        "has_aggression",
+        "has_trump",
+        "is_real",
+        "source_train1"
+      ],
+      "support": 0.059,
+      "confidence": 0.6736,
+      "lift": 5.2346,
+      "conviction": 2.6692
+    },
+    {
+      "antecedents": [
+        "is_fake",
+        "is_short_text"
+      ],
+      "consequents": [
+        "source_train1",
+        "subject_politics"
+      ],
+      "support": 0.058,
+      "confidence": 0.7331,
+      "lift": 4.9702,
+      "conviction": 3.1946
+    },
+    {
+      "antecedents": [
+        "is_long_text",
+        "source_train1",
+        "subject_politicsnews"
+      ],
+      "consequents": [
+        "has_aggression",
+        "has_trump",
+        "is_real"
+      ],
+      "support": 0.059,
+      "confidence": 0.7694,
+      "lift": 4.5776,
+      "conviction": 3.608
+    },
+    {
+      "antecedents": [
+        "is_long_text",
+        "subject_politicsnews"
+      ],
+      "consequents": [
+        "has_aggression",
+        "has_trump",
+        "is_real"
+      ],
+      "support": 0.0671,
+      "confidence": 0.7671,
+      "lift": 4.5638,
+      "conviction": 3.572
+    },
+    {
+      "antecedents": [
+        "is_long_text",
+        "is_real",
+        "source_train1"
+      ],
+      "consequents": [
+        "has_aggression",
+        "has_trump",
+        "subject_politicsnews"
+      ],
+      "support": 0.059,
+      "confidence": 0.6287,
+      "lift": 4.5582,
+      "conviction": 2.3218
+    },
+    {
+      "antecedents": [
+        "is_fake",
+        "is_short_text",
+        "source_train1"
+      ],
+      "consequents": [
+        "subject_politics"
+      ],
+      "support": 0.058,
+      "confidence": 0.7566,
+      "lift": 4.5515,
+      "conviction": 3.4261
+    },
+    {
+      "antecedents": [
+        "is_fake",
+        "is_short_text"
+      ],
+      "consequents": [
+        "subject_politics"
+      ],
+      "support": 0.0597,
+      "confidence": 0.7536,
+      "lift": 4.533,
+      "conviction": 3.3834
+    },
+    {
+      "antecedents": [
+        "has_trump",
+        "is_long_text",
+        "is_real",
+        "source_train1"
+      ],
+      "consequents": [
+        "has_aggression",
+        "subject_politicsnews"
+      ],
+      "support": 0.059,
+      "confidence": 0.8684,
+      "lift": 4.4616,
+      "conviction": 6.1218
+    },
+    {
+      "antecedents": [
+        "has_aggression",
+        "is_long_text",
+        "subject_politicsnews"
+      ],
+      "consequents": [
+        "has_trump",
+        "is_real",
+        "source_train1"
+      ],
+      "support": 0.059,
+      "confidence": 0.7422,
+      "lift": 4.0764,
+      "conviction": 3.1723
+    },
+    {
+      "antecedents": [
+        "is_long_text",
+        "subject_politicsnews"
+      ],
+      "consequents": [
+        "has_trump",
+        "is_real",
+        "source_train1"
+      ],
+      "support": 0.0643,
+      "confidence": 0.7349,
+      "lift": 4.0367,
+      "conviction": 3.0858
+    },
+    {
+      "antecedents": [
+        "has_trump",
+        "is_long_text",
+        "is_real"
+      ],
+      "consequents": [
+        "has_aggression",
+        "subject_politicsnews"
+      ],
+      "support": 0.0671,
+      "confidence": 0.776,
+      "lift": 3.9866,
+      "conviction": 3.5952
+    },
+    {
+      "antecedents": [
+        "has_trump",
+        "is_long_text",
+        "is_real"
+      ],
+      "consequents": [
+        "has_aggression",
+        "source_train1",
+        "subject_politicsnews"
+      ],
+      "support": 0.059,
+      "confidence": 0.6814,
+      "lift": 3.9727,
+      "conviction": 2.6002
+    },
+    {
+      "antecedents": [
+        "is_long_text",
+        "is_real",
+        "source_train1"
+      ],
+      "consequents": [
+        "has_aggression",
+        "subject_politicsnews"
+      ],
+      "support": 0.0699,
+      "confidence": 0.7453,
+      "lift": 3.8292,
+      "conviction": 3.1625
+    },
+    {
+      "antecedents": [
+        "is_medium_text",
+        "subject_worldnews"
+      ],
+      "consequents": [
+        "has_aggression",
+        "is_real",
+        "source_train2"
+      ],
+      "support": 0.0669,
+      "confidence": 0.6011,
+      "lift": 3.7784,
+      "conviction": 2.1081
+    },
+    {
+      "antecedents": [
+        "has_aggression",
+        "has_trump",
+        "is_fake",
+        "is_medium_text",
+        "source_train1"
+      ],
+      "consequents": [
+        "subject_news"
+      ],
+      "support": 0.0854,
+      "confidence": 0.8619,
+      "lift": 3.6843,
+      "conviction": 5.5454
+    },
+    {
+      "antecedents": [
+        "is_medium_text",
+        "is_real",
+        "source_train2"
+      ],
+      "consequents": [
+        "has_aggression",
+        "subject_worldnews"
+      ],
+      "support": 0.0669,
+      "confidence": 0.6976,
+      "lift": 3.6642,
+      "conviction": 2.6771
+    },
+    {
+      "antecedents": [
+        "has_trump",
+        "is_fake",
+        "is_medium_text",
+        "source_train1"
+      ],
+      "consequents": [
+        "subject_news"
+      ],
+      "support": 0.1057,
+      "confidence": 0.8536,
+      "lift": 3.6491,
+      "conviction": 5.2339
+    },
+    {
+      "antecedents": [
+        "has_aggression",
+        "has_trump",
+        "is_fake",
+        "is_medium_text"
+      ],
+      "consequents": [
+        "subject_news"
+      ],
+      "support": 0.0888,
+      "confidence": 0.8464,
+      "lift": 3.6182,
+      "conviction": 4.9872
+    },
+    {
+      "antecedents": [
+        "has_aggression",
+        "is_long_text",
+        "subject_politicsnews"
+      ],
+      "consequents": [
+        "has_trump",
+        "is_real"
+      ],
+      "support": 0.0671,
+      "confidence": 0.8452,
+      "lift": 3.6022,
+      "conviction": 4.9446
+    },
+    {
+      "antecedents": [
+        "has_aggression",
+        "is_long_text",
+        "source_train1",
+        "subject_politicsnews"
+      ],
+      "consequents": [
+        "has_trump",
+        "is_real"
+      ],
+      "support": 0.059,
+      "confidence": 0.8435,
+      "lift": 3.595,
+      "conviction": 4.8911
+    },
+    {
+      "antecedents": [
+        "has_aggression",
+        "has_trump",
+        "is_fake",
+        "is_medium_text"
+      ],
+      "consequents": [
+        "source_train1",
+        "subject_news"
+      ],
+      "support": 0.0854,
+      "confidence": 0.814,
+      "lift": 3.593,
+      "conviction": 4.1584
+    },
+    {
+      "antecedents": [
+        "is_long_text",
+        "subject_politicsnews"
+      ],
+      "consequents": [
+        "has_trump",
+        "is_real"
+      ],
+      "support": 0.0738,
+      "confidence": 0.8429,
+      "lift": 3.5923,
+      "conviction": 4.8713
+    },
+    {
+      "antecedents": [
+        "has_trump",
+        "is_fake",
+        "is_medium_text"
+      ],
+      "consequents": [
+        "subject_news"
+      ],
+      "support": 0.1098,
+      "confidence": 0.8381,
+      "lift": 3.5826,
+      "conviction": 4.7307
+    },
+    {
+      "antecedents": [
+        "is_long_text",
+        "source_train1",
+        "subject_politicsnews"
+      ],
+      "consequents": [
+        "has_trump",
+        "is_real"
+      ],
+      "support": 0.0643,
+      "confidence": 0.8395,
+      "lift": 3.5779,
+      "conviction": 4.7694
+    },
+    {
+      "antecedents": [
+        "has_trump",
+        "is_fake",
+        "is_medium_text"
+      ],
+      "consequents": [
+        "source_train1",
+        "subject_news"
+      ],
+      "support": 0.1057,
+      "confidence": 0.8062,
+      "lift": 3.5587,
+      "conviction": 3.9914
+    },
+    {
+      "antecedents": [
+        "has_trump",
+        "is_long_text",
+        "subject_politicsnews"
+      ],
+      "consequents": [
+        "has_aggression",
+        "is_real",
+        "source_train1"
+      ],
+      "support": 0.059,
+      "confidence": 0.7991,
+      "lift": 3.5369,
+      "conviction": 3.8534
+    },
+    {
+      "antecedents": [
+        "is_long_text",
+        "subject_politicsnews"
+      ],
+      "consequents": [
+        "has_aggression",
+        "is_real",
+        "source_train1"
+      ],
+      "support": 0.0699,
+      "confidence": 0.7985,
+      "lift": 3.5343,
+      "conviction": 3.8419
+    },
+    {
+      "antecedents": [
+        "has_trump",
+        "is_fake",
+        "is_medium_text",
+        "source_train1"
+      ],
+      "consequents": [
+        "has_aggression",
+        "subject_news"
+      ],
+      "support": 0.0854,
+      "confidence": 0.6898,
+      "lift": 3.5254,
+      "conviction": 2.5926
+    },
+    {
+      "antecedents": [
+        "has_trump",
+        "is_fake",
+        "is_medium_text"
+      ],
+      "consequents": [
+        "has_aggression",
+        "subject_news"
+      ],
+      "support": 0.0888,
+      "confidence": 0.6774,
+      "lift": 3.4621,
+      "conviction": 2.493
+    },
+    {
+      "antecedents": [
+        "is_long_text",
+        "is_real",
+        "source_train1"
+      ],
+      "consequents": [
+        "has_trump",
+        "subject_politicsnews"
+      ],
+      "support": 0.0643,
+      "confidence": 0.686,
+      "lift": 3.457,
+      "conviction": 2.5527
+    }
+  ],
+  "created_at": "2026-03-22T03:19:20.576002"
+}
