@@ -195,6 +195,25 @@ class DataCollector:
             
             LOGGER.info(f"Split {name}: {train_name}={len(train_df)}, {test_name}={len(test_df)}")
 
+    def _grep(self, df, kw):
+        t = df["text"].fillna("").str.lower()
+        h = df["title"].fillna("").str.lower() if "title" in df.columns else t
+        return df[t.str.contains(kw, na=False) | h.str.contains(kw, na=False)]
+
+    def create_trump_splits(self):
+        dfs = {"train": [], "test": []}
+        for k in dfs:
+            for i in [1, 2]:
+                f = self.processed_path / f"{k}{i}.csv"
+                if f.exists():
+                    dfs[k].append(self._grep(pd.read_csv(f), "trump"))
+        for k, v in dfs.items():
+            if v:
+                out = pd.concat(v, ignore_index=True)
+                out.to_csv(self.processed_path / f"{k}_trump.csv", index=False)
+                self.save_meta(f"{k}_trump", out)
+                LOGGER.info(f"{k}_trump: {len(out)} rows")
+
     def collect(self):
         LOGGER.info("Starting data collection")
         LOGGER.info(f"Config: seed={self.seed}, rps={self.rps}")
@@ -203,6 +222,7 @@ class DataCollector:
         batches = self.split_into_batches(df)
         self.save_batches(batches)
         self.save_splits(df)
+        self.create_trump_splits()
         LOGGER.info("Done")
         return df
 

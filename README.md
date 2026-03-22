@@ -12,7 +12,7 @@ MLOps-система для классификации фейковых ново
 
 ## Запуск
 
-Сбор данных:
+Сбор данных (создаёт train1, test1, train2, test2, train_trump, test_trump):
 
 ```bash
 cd FakeNewsClassifier
