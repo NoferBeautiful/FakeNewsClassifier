@@ -1,0 +1,11 @@
+pandas>=2.0.0
+numpy>=1.24.0
+scikit-learn>=1.3.0
+torch>=2.0.0
+transformers>=4.30.0
+datasets>=2.14.0
+kagglehub>=0.2.0
+pyyaml>=6.0
+python-dateutil>=2.8.0
+click>=8.0.0
+psutil>=5.9.0

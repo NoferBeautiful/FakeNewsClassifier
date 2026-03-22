@@ -1,0 +1,45 @@
+model:
+  name: "distilbert-base-uncased-local"
+  max_length: 512
+
+training:
+  seed: 42
+  batch_size: 128
+  learning_rate: 2e-5
+  weight_decay: 0.01
+  num_epochs: 1
+  freeze_encoder: true
+  soft_labeling: 0.1
+  datasets: trump
+
+dataset_presets:
+  from_scratch:
+    train:
+      - path: "data/processed/train1.csv"
+        weight: 1.0
+    eval:
+      - "data/processed/test1.csv"
+      - "data/processed/test2.csv"
+  
+  finetune:
+    train:
+      - path: "data/processed/train1.csv"
+        weight: 0.7
+      - path: "data/processed/train2.csv"
+        weight: 0.3
+    eval:
+      - "data/processed/test1.csv"
+      - "data/processed/test2.csv"
+
+  trump:
+    train:
+      - path: "data/processed/train1.csv"
+        weight: 0.7
+      - path: "data/processed/train_trump.csv"
+        weight: 0.3
+    eval:
+      - "data/processed/test1.csv"
+      - "data/processed/test_trump.csv"
+
+paths:
+  models_dir: "models"
