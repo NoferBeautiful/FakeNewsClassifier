@@ -21,35 +21,40 @@ class AttentionInterpreter:
         self.model.to(self.device)
 
     def explain(self, text):
+        data = self.explain_detailed(text)
+        lines = [f"Prediction: {'FAKE' if data['label']==1 else 'REAL'} ({data['confidence']:.2%})", "",
+                 f"Punctuation: {data['punct']:.4f}", f"Stop words: {data['stop']:.4f}", "", "Top words:"]
+        for token, score in data['top_words'][:10]:
+            lines.append(f"  {token}: {score:.4f}")
+        return "\n".join(lines)
+
+    def explain_detailed(self, text):
         inputs = self.tokenizer(text, truncation=True, max_length=self.config["model"]["max_length"], return_tensors="pt")
         inputs.pop("token_type_ids", None)
         inputs = {k: v.to(self.device) for k, v in inputs.items()}
-        
         with torch.no_grad():
             outputs = self.model(**inputs)
-        
-        cls_attention = outputs.attentions[-1].mean(dim=1).squeeze(0)[0, 1:-1].cpu().numpy()
+        attn = outputs.attentions[-1].mean(dim=1).squeeze(0)[0, 1:-1].cpu().numpy()
         tokens = self.tokenizer.convert_ids_to_tokens(inputs["input_ids"][0])[1:-1]
-        
         punct, stop, content = 0.0, 0.0, []
-        for token, score in zip(tokens, cls_attention.tolist()):
+        token_scores = []
+        for token, score in zip(tokens, attn.tolist()):
             clean = token[2:] if token.startswith("##") else token
+            token_scores.append((token, score))
             if not clean.isalpha():
                 punct += score
             elif clean.lower() in STOP_WORDS:
                 stop += score
             else:
                 content.append((token, score))
-        
         content.sort(key=lambda x: x[1], reverse=True)
-        
         probs = torch.softmax(outputs.logits, dim=-1)
         pred = torch.argmax(probs, dim=-1).item()
-        label = "FAKE" if pred == 1 else "REAL"
-        conf = probs[0][pred].item()
-        
-        lines = [f"Prediction: {label} ({conf:.2%})", "", f"Punctuation: {punct:.4f}", f"Stop words: {stop:.4f}", "", "Top words:"]
-        for token, score in content[:10]:
-            lines.append(f"  {token}: {score:.4f}")
-        
-        return "\n".join(lines)
+        return {
+            "label": pred,
+            "confidence": probs[0][pred].item(),
+            "punct": punct,
+            "stop": stop,
+            "top_words": content,
+            "all_tokens": token_scores,
+        }

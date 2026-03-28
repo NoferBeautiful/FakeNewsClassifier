@@ -30,27 +30,57 @@ text = None
 if input_type == "URL":
     url = st.text_input("URL:")
     if url:
-        try:
-            article = Article(url)
-            article.download()
-            article.parse()
-            text = article.title + ". " + article.text
-        except:
-            st.error("Failed to extract")
+        with st.spinner("Extracting article..."):
+            try:
+                article = Article(url)
+                article.download()
+                article.parse()
+                text = article.title + ". " + article.text
+                st.success("Article extracted!")
+            except:
+                st.error("Failed to extract article")
 else:
     text = st.text_area("Text:", height=150)
 
-if text and st.button("Analyze"):
+if text:
     lang = detect(text)
     if lang == "ru":
-        st.info("🔄 Translating...")
-        ids = translator_tok.encode(text[:1024], return_tensors="pt", truncation=True)
-        text = translator_tok.decode(translator.generate(ids)[0], skip_special_tokens=True)
-        st.caption(f"Translated: {text[:300]}...")
+        with st.spinner("🔄 Translating from Russian..."):
+            ids = translator_tok.encode(text[:1024], return_tensors="pt", truncation=True)
+            text = translator_tok.decode(translator.generate(ids)[0], skip_special_tokens=True)
+        st.info(f"**Translated text:** {text}")
     
-    result = predictor.predict(text)
-    explanation = interpreter.explain(text)
+    with st.spinner("Analyzing..."):
+        result = predictor.predict(text)
+        data = interpreter.explain_detailed(text)
     
-    st.markdown(f"### Fakeness: {result['confidence'] if result['label']==1 else 1-result['confidence']:.0%}")
-    st.progress(int((result['confidence'] if result['label']==1 else 1-result['confidence']) * 100))
-    st.text(explanation)
+    fake_prob = data['confidence'] if data['label'] == 1 else 1 - data['confidence']
+    st.markdown(f"### Fakeness: {fake_prob:.0%}")
+    st.progress(int(fake_prob * 100))
+    
+    st.markdown("---")
+    st.markdown("### 📊 Interpretation")
+    st.markdown(f"**Punctuation attention:** {data['punct']:.4f}")
+    st.markdown(f"**Stop words attention:** {data['stop']:.4f}")
+    
+    st.markdown("**Top important words:**")
+    top_words = ", ".join([f"`{w}` ({s:.3f})" for w, s in data['top_words'][:10]])
+    st.markdown(top_words)
+    
+    st.markdown("---")
+    st.markdown("### 🔍 Text with attention highlighting")
+    
+    scores = [s for _, s in data['all_tokens']]
+    max_score = max(scores) if scores else 1
+    
+    html_parts = []
+    for token, score in data['all_tokens']:
+        intensity = min(score / max_score, 1.0)
+        r = int(255 * intensity)
+        g = int(255 * (1 - intensity * 0.5))
+        b = int(100 * (1 - intensity))
+        color = f"rgb({r},{g},{b})"
+        display = token[2:] if token.startswith("##") else " " + token
+        html_parts.append(f'<span style="background-color:{color};padding:2px;border-radius:3px">{display}</span>')
+    
+    st.markdown("".join(html_parts), unsafe_allow_html=True)
