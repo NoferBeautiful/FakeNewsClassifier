@@ -1,0 +1,39 @@
+{
+  "name": "baseline_frozen_encoder",
+  "model_name": "distilbert-base-uncased-local",
+  "metrics": {
+    "eval_loss": 0.5011,
+    "eval_accuracy": 0.9279,
+    "eval_f1": 0.9387,
+    "eval_precision": 0.9048,
+    "eval_recall": 0.9752,
+    "eval_runtime": 19.2981,
+    "eval_samples_per_second": 299.149,
+    "eval_steps_per_second": 2.384,
+    "epoch": 1.0
+  },
+  "eval_results": {
+    "test1": {
+      "eval_loss": 0.5011,
+      "eval_accuracy": 0.9279,
+      "eval_f1": 0.9387,
+      "eval_precision": 0.9048,
+      "eval_recall": 0.9752,
+      "eval_runtime": 19.2981,
+      "eval_samples_per_second": 299.149,
+      "eval_steps_per_second": 2.384,
+      "epoch": 1.0
+    },
+    "test2": {
+      "eval_loss": 0.5214,
+      "eval_accuracy": 0.933,
+      "eval_f1": 0.7714,
+      "eval_precision": 0.6351,
+      "eval_recall": 0.9822,
+      "eval_runtime": 6.4837,
+      "eval_samples_per_second": 301.373,
+      "eval_steps_per_second": 2.468,
+      "epoch": 1.0
+    }
+  }
+}
