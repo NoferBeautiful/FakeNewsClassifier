@@ -79,14 +79,19 @@ if text:
     st.markdown("### 🔍 Text with attention highlighting")
     
     scores = [s for _, s in data['all_tokens']]
-    max_score = max(scores) if scores else 1
+    if scores:
+        min_score = min(scores)
+        max_score = max(scores)
+        score_range = max_score - min_score if max_score > min_score else 1
+    else:
+        min_score, score_range = 0, 1
     
     html_parts = []
     for token, score in data['all_tokens']:
-        intensity = min(score / max_score, 1.0)
+        intensity = (score - min_score) / score_range
         r = int(255 * intensity)
-        g = int(255 * (1 - intensity * 0.5))
-        b = int(100 * (1 - intensity))
+        g = int(255 * (1 - intensity))
+        b = 100
         color = f"rgb({r},{g},{b})"
         display = token[2:] if token.startswith("##") else " " + token
         html_parts.append(f'<span style="background-color:{color};padding:2px;border-radius:3px">{display}</span>')
