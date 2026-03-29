@@ -82,20 +82,22 @@ if text:
     
     scores = [s for _, s in data['all_tokens']]
     if scores:
-        min_score = min(scores)
-        max_score = max(scores)
-        score_range = max_score - min_score if max_score > min_score else 1
+        sorted_scores = sorted(scores)
+        p10 = sorted_scores[len(sorted_scores) // 10] if len(sorted_scores) > 10 else sorted_scores[0]
+        p90 = sorted_scores[len(sorted_scores) * 9 // 10] if len(sorted_scores) > 10 else sorted_scores[-1]
+        score_range = p90 - p10 if p90 > p10 else 1
     else:
-        min_score, score_range = 0, 1
+        p10, score_range = 0, 1
     
-    html_parts = []
+    html_parts = ['<div style="line-height:1.8;font-size:14px;">']
     for token, score in data['all_tokens']:
-        intensity = (score - min_score) / score_range
+        intensity = max(0, min(1, (score - p10) / score_range))
         r = int(255 * intensity)
         g = int(255 * (1 - intensity))
         b = 100
         color = f"rgb({r},{g},{b})"
         display = token[2:] if token.startswith("##") else " " + token
         html_parts.append(f'<span style="background-color:{color};padding:2px;border-radius:3px">{display}</span>')
+    html_parts.append('</div>')
     
-    st.markdown("".join(html_parts), unsafe_allow_html=True)
+    st.html("".join(html_parts))
