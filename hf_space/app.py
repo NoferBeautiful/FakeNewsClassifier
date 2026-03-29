@@ -8,8 +8,6 @@ from model.interpretability import AttentionInterpreter
 st.set_page_config(page_title="Fake News Classifier", page_icon="📰")
 st.title("📰 Fake News Classifier")
 
-MODELS = ["baseline_frozen_encoder", "baseline_frozen_encoder_trump", "baseline_unfrozen_encoder"]
-
 @st.cache_resource
 def load_translator():
     tok = FSMTTokenizer.from_pretrained("facebook/wmt19-ru-en")
@@ -17,11 +15,10 @@ def load_translator():
     return tok, model
 
 @st.cache_resource
-def load_predictor(name):
-    return BertPredictor(name), AttentionInterpreter(name)
+def load_predictor():
+    return BertPredictor("baseline_frozen_encoder"), AttentionInterpreter("baseline_frozen_encoder")
 
-model_name = st.selectbox("Model:", MODELS)
-predictor, interpreter = load_predictor(model_name)
+predictor, interpreter = load_predictor()
 translator_tok, translator = load_translator()
 
 input_type = st.radio("Input:", ["URL", "Text"], horizontal=True)

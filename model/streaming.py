@@ -90,18 +90,21 @@ class StreamEmulator:
                     self._flush(batch)
                     batch, t_last = [], time.time()
 
-    def run(self, path, rps=10, n_samples=None):
+    def run(self, path, rps=10, n_samples=None, empty_ratio=0.0):
         data = pd.read_csv(path)
         if n_samples:
             data = data.sample(n=min(n_samples, len(data)))
         self._n = len(data)
         delay = 1.0 / rps
-        logger.info(f"stream: n={self._n}, rps={rps}, batch={self.batch_sz}")
+        logger.info(f"stream: n={self._n}, rps={rps}, batch={self.batch_sz}, empty={empty_ratio:.0%}")
         t0 = time.time()
         threading.Thread(target=self._consumer, daemon=True).start()
         threading.Thread(target=self._reporter, daemon=True).start()
         for _, row in data.iterrows():
-            self.queue.put({"text": row["text"], "label": row.get("label")})
+            if random.random() < empty_ratio:
+                self.queue.put({"text": "", "label": row.get("label")})
+            else:
+                self.queue.put({"text": row["text"], "label": row.get("label")})
             time.sleep(delay * random.uniform(0.5, 1.5))
         self._done.set()
         while not self.queue.empty() or len(self.processed) < self._n:

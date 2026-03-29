@@ -128,11 +128,12 @@ def compare(model1: str, model2: str, dataset: str):
 @click.option("--report-interval", default=1.0, type=float)
 @click.option("--batch-timeout", default=5.0, type=float)
 @click.option("--trump-threshold", default=0.5, type=float, help="Trump ratio to trigger model switch")
-def stream(model: str, file: str, rps: int, batch_size: int, limit: int, report_interval: float, batch_timeout: float, trump_threshold: float):
+@click.option("--empty-ratio", default=0.0, type=float, help="Ratio of empty requests (0-1)")
+def stream(model: str, file: str, rps: int, batch_size: int, limit: int, report_interval: float, batch_timeout: float, trump_threshold: float, empty_ratio: float):
     emu = StreamEmulator(model, batch_sz=batch_size, trump_threshold=trump_threshold)
     emu.report_every = report_interval
     emu.batch_timeout = batch_timeout
-    emu.run(file, rps=rps, n_samples=limit)
+    emu.run(file, rps=rps, n_samples=limit, empty_ratio=empty_ratio)
 
 
 if __name__ == "__main__":

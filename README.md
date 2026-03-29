@@ -23,43 +23,43 @@ python -m data_collection.collector
 Обучение модели:
 
 ```bash
-python run.py train --name v1
+python run.py train --name baseline_frozen_encoder
 ```
 
 Дообучение модели:
 
 ```bash
-python run.py update --name v2 --base-model v1
+python run.py update --name baseline_frozen_encoder_trump --base-model baseline_frozen_encoder
 ```
 
 Валидация:
 
 ```bash
-python run.py validate --model v1 --files data/processed/test1.csv --files data/processed/test2.csv
+python run.py validate --model baseline_frozen_encoder --files data/processed/test1.csv --files data/processed/test2.csv
 ```
 
 Инференс:
 
 ```bash
-python run.py inference --model v1 --file data/processed/test1.csv
+python run.py inference --model baseline_frozen_encoder --file data/processed/test1.csv
 ```
 
 Предсказание одной новости:
 
 ```bash
-python run.py predict --model v1 --text "Trump iran boom boom boom"
+python run.py predict --model baseline_frozen_encoder --text "Trump iran boom boom boom"
 ```
 
 Интерпретация ответа:
 
 ```bash
-python run.py explain --model v1 --text "Trump iran boom boom boom"
+python run.py explain --model baseline_frozen_encoder --text "Trump iran boom boom boom"
 ```
 
 Сравнение 2 моделей:
 
 ```bash
-python run.py compare --model1 v1 --model2 v2 --dataset data/processed/test1.csv
+python run.py compare --model1 baseline_frozen_encoder --model2 baseline_frozen_encoder_trump --dataset data/processed/test1.csv
 ```
 
 Сводка по моделям и метрикам:
@@ -82,6 +82,9 @@ python run.py stream --model baseline_frozen_encoder --file data/processed/test1
 
 # С drift (переключение на trump-модель при >30% новостей с trump в батче)
 python run.py stream --model baseline_frozen_encoder --file data/processed/test_trump.csv --trump-threshold 0.3 --batch-size 16 --limit 100
+
+# С пустыми запросами (20% запросов будут пустыми)
+python run.py stream --model baseline_frozen_encoder --file data/processed/test1.csv --empty-ratio 0.2 --batch-size 16 --limit 100
 ```
 
 - `--rps` — запросы в секунду
@@ -89,6 +92,7 @@ python run.py stream --model baseline_frozen_encoder --file data/processed/test_
 - `--limit` — количество запросов
 - `--report-interval` — периодичность отчета в секундах
 - `--batch-timeout` — таймаут принудительной обработки батча, если он не заполнился
+- `--empty-ratio` — доля пустых запросов (0-1)
 
 ## HF Space
 
