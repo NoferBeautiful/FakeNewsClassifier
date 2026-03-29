@@ -1,3 +1,4 @@
+import re
 import streamlit as st
 from newspaper import Article
 from langdetect import detect
@@ -13,6 +14,17 @@ def load_translator():
     tok = FSMTTokenizer.from_pretrained("facebook/wmt19-ru-en")
     model = FSMTForConditionalGeneration.from_pretrained("facebook/wmt19-ru-en")
     return tok, model
+
+def translate_text(text, tokenizer, model):
+    sentences = re.split(r'(?<=[.!?])\s+', text.strip())
+    translated = []
+    for sent in sentences:
+        if not sent.strip():
+            continue
+        ids = tokenizer.encode(sent, return_tensors="pt", truncation=True, max_length=512)
+        out = model.generate(ids)
+        translated.append(tokenizer.decode(out[0], skip_special_tokens=True))
+    return " ".join(translated)
 
 @st.cache_resource
 def load_predictor():
@@ -43,8 +55,7 @@ if text:
     lang = detect(text)
     if lang == "ru":
         with st.spinner("🔄 Translating from Russian..."):
-            ids = translator_tok.encode(text[:1024], return_tensors="pt", truncation=True)
-            text = translator_tok.decode(translator.generate(ids)[0], skip_special_tokens=True)
+            text = translate_text(text, translator_tok, translator)
         st.info(f"**Translated text:** {text}")
     
     with st.spinner("Analyzing..."):
