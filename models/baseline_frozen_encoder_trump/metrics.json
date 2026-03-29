@@ -1,0 +1,38 @@
+{
+  "name": "baseline_frozen_encoder_trump",
+  "metrics": {
+    "eval_loss": 0.4116,
+    "eval_accuracy": 0.9461,
+    "eval_f1": 0.9518,
+    "eval_precision": 0.963,
+    "eval_recall": 0.9409,
+    "eval_runtime": 19.3223,
+    "eval_samples_per_second": 298.773,
+    "eval_steps_per_second": 2.381,
+    "epoch": 1.0
+  },
+  "eval_results": {
+    "test1": {
+      "eval_loss": 0.4116,
+      "eval_accuracy": 0.9461,
+      "eval_f1": 0.9518,
+      "eval_precision": 0.963,
+      "eval_recall": 0.9409,
+      "eval_runtime": 19.3223,
+      "eval_samples_per_second": 298.773,
+      "eval_steps_per_second": 2.381,
+      "epoch": 1.0
+    },
+    "test_trump": {
+      "eval_loss": 0.4109,
+      "eval_accuracy": 0.9492,
+      "eval_f1": 0.951,
+      "eval_precision": 0.9478,
+      "eval_recall": 0.9542,
+      "eval_runtime": 13.4134,
+      "eval_samples_per_second": 299.476,
+      "eval_steps_per_second": 2.386,
+      "epoch": 1.0
+    }
+  }
+}
