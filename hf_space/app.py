@@ -2,7 +2,7 @@ import re
 import streamlit as st
 from newspaper import Article
 from langdetect import detect
-from transformers import FSMTForConditionalGeneration, FSMTTokenizer
+from transformers import MarianMTModel, MarianTokenizer
 from model.predictor import BertPredictor
 from model.interpretability import AttentionInterpreter
 
@@ -11,8 +11,8 @@ st.title("📰 Fake News Classifier")
 
 @st.cache_resource
 def load_translator():
-    tok = FSMTTokenizer.from_pretrained("facebook/wmt19-ru-en")
-    model = FSMTForConditionalGeneration.from_pretrained("facebook/wmt19-ru-en")
+    tok = MarianTokenizer.from_pretrained("Helsinki-NLP/opus-mt-ru-en")
+    model = MarianMTModel.from_pretrained("Helsinki-NLP/opus-mt-ru-en")
     return tok, model
 
 def translate_text(text, tokenizer, model):
@@ -21,8 +21,8 @@ def translate_text(text, tokenizer, model):
     for sent in sentences:
         if not sent.strip():
             continue
-        ids = tokenizer.encode(sent, return_tensors="pt", truncation=True, max_length=512)
-        out = model.generate(ids)
+        inputs = tokenizer(sent, return_tensors="pt", truncation=True, max_length=512)
+        out = model.generate(**inputs)
         translated.append(tokenizer.decode(out[0], skip_special_tokens=True))
     return " ".join(translated)
 
@@ -46,6 +46,8 @@ if input_type == "URL":
                 article.parse()
                 text = article.title + ". " + article.text
                 st.success("Article extracted!")
+                with st.expander("📄 Extracted text", expanded=False):
+                    st.write(text[:2000] + "..." if len(text) > 2000 else text)
             except:
                 st.error("Failed to extract article")
 else:
