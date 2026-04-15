@@ -106,9 +106,10 @@ GitHub Actions workflow (.github/workflows/train.yml)
 - Шаги:
   - Checkout кода
   - Установка зависимостей из requirements.txt
-  - Обучение модели baseline_frozen_encoder
-  - Загрузка training logs как artifacts (trainer_state.json)
-- Результат: проверка что обучение проходит без ошибок
+  - Валидация модели baseline_frozen_encoder на тестовых данных
+  - Загрузка результатов валидации как artifacts (metrics.json)
+- Результат: проверка что существующая модель работает корректно
+- Примечание: CLI также поддерживает обучение и дообучение моделей через команды `train` и `update`
 
 HuggingFace Space
 

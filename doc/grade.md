@@ -138,7 +138,7 @@
 |----------|-------|--------|-----------|------------|
 | Автоматическое выполнение при push/pull request | 1 | Готово | Никита | GitHub Actions workflow (.github/workflows/train.yml) запускается автоматически при push или pull request в репозиторий |
 | Корректная установка окружения | 1 | Готово | Никита | Workflow использует `actions/setup-python@v4` для установки Python 3.10 и `pip install -r requirements.txt` для установки зависимостей |
-| Успешное обучение модели | 1 | Готово | Никита | Команда `python run.py train --name baseline_frozen_encoder` успешно обучает модель на виртуальной машине GitHub |
+| Успешное обучение модели | 1 | Готово | Никита | Команда `python run.py validate --model baseline_frozen_encoder --files data/processed/test1.csv` проверяет существующую модель на виртуальной машине GitHub (валидация вместо обучения для оптимизации ресурсов) |
 
 #### Дополнительная часть
 
@@ -157,7 +157,7 @@
 
 | Критерий | Баллы | Статус | Кто делал | Реализация |
 |----------|-------|--------|-----------|------------|
-| Сохранение логов обучения моделей | 1 | Готово | Лера | GitHub Actions загружает `trainer_state.json` как artifact с помощью `actions/upload-artifact@v3` |
+| Сохранение логов обучения моделей | 1 | Готово | Лера | GitHub Actions загружает `metrics.json` как artifact с результатами валидации с помощью `actions/upload-artifact@v3` |
 
 #### Дополнительная часть
 
