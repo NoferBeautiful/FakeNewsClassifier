@@ -1,8 +1,8 @@
-name: Train Model
+name: Validate Model
 on: [push, pull_request]
 
 jobs:
-  train:
+  validate:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -16,11 +16,11 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
       
-      - name: Train model
-        run: python run.py train --name baseline_frozen_encoder
+      - name: Validate model
+        run: python run.py validate --model baseline_frozen_encoder --files data/processed/test1.csv
       
-      - name: Upload logs
+      - name: Upload validation results
         uses: actions/upload-artifact@v3
         with:
-          name: training-logs
-          path: models/baseline_frozen_encoder/checkpoints/*/trainer_state.json
+          name: validation-results
+          path: models/baseline_frozen_encoder/metrics.json
