@@ -1,0 +1,38 @@
+{
+  "name": "baseline_unfrozen_encoder",
+  "metrics": {
+    "eval_loss": 0.1995,
+    "eval_accuracy": 0.9997,
+    "eval_f1": 0.9997,
+    "eval_precision": 1.0,
+    "eval_recall": 0.9994,
+    "eval_runtime": 19.3419,
+    "eval_samples_per_second": 298.472,
+    "eval_steps_per_second": 2.378,
+    "epoch": 1.0
+  },
+  "eval_results": {
+    "test1": {
+      "eval_loss": 0.1995,
+      "eval_accuracy": 0.9997,
+      "eval_f1": 0.9997,
+      "eval_precision": 1.0,
+      "eval_recall": 0.9994,
+      "eval_runtime": 19.3419,
+      "eval_samples_per_second": 298.472,
+      "eval_steps_per_second": 2.378,
+      "epoch": 1.0
+    },
+    "test2": {
+      "eval_loss": 0.2004,
+      "eval_accuracy": 0.9995,
+      "eval_f1": 0.9978,
+      "eval_precision": 0.9956,
+      "eval_recall": 1.0,
+      "eval_runtime": 6.533,
+      "eval_samples_per_second": 299.095,
+      "eval_steps_per_second": 2.449,
+      "epoch": 1.0
+    }
+  }
+}
