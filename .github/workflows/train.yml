@@ -17,7 +17,7 @@ jobs:
         run: pip install -r requirements.txt
       
       - name: Validate model
-        run: python run.py validate --model baseline_frozen_encoder --files data/processed/test1.csv
+        run: python run.py validate --model baseline_frozen_encoder --files FakeNewsClassifier/data/processed/test1.csv
       
       - name: Upload validation results
         uses: actions/upload-artifact@v4
